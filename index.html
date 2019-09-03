@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
     <style>
       .map {
-        height: 60%;
+        height: 65%;
         width: 100%;
       }
     </style>
@@ -13,7 +13,15 @@
   </head>
   <body>
     <h2>Navigieren: </h2>
-    <input type="text" name="Coordinates" id="coords">
+    <form action="formmailer.php" method="post" id="myForm">
+      <label>Longtiude
+        <input type="text" name="Coordinates" id="coords1">
+      </label>
+      <label>Lattiude
+        <input type="text" name="Coordinates" id="coords2">
+      </label>
+      <label><input type="submit" value="Absenden" /><label>
+    </form>
     <div id="map" class="map"></div>
     <script type="text/javascript">
       var map = new ol.Map({
@@ -28,6 +36,15 @@
           zoom: 19
         })
       });
+      document.getElementById('myForm').onsubmit = function () {
+        
+        let long = document.getElementById('coords1');
+        let lat = document.getElementById('coords2');
+          console.log("Long: " + long + " Lat: " + lat);
+          map.getView().setCenter(ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857'));
+          map.getView().setZoom(19);
+          return false;
+      }
     </script>
   </body>
 </html>
