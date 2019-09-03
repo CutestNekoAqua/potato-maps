@@ -24,6 +24,8 @@
     </form>
     <div id="map" class="map"></div>
     <script type="text/javascript">
+      let args = window.location.search;
+      console.log(args);
       var map = new ol.Map({
         target: 'map',
         layers: [
