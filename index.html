@@ -43,7 +43,7 @@
           console.log("Long: " + long + " Lat: " + lat);
           map.getView().setCenter(ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857'));
           map.getView().setZoom(19);
-          return false;
+          return true;
       }
     </script>
   </body>
