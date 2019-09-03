@@ -26,6 +26,16 @@
     <script type="text/javascript">
       let args = window.location.search;
       console.log(args);
+      args.split('?');
+      if (args[1] != null) {
+      let fullcords = args[1];
+      fullcords.split(',');
+        let long = fullcords[0];
+        let lat = fullcords[1];
+      } else {
+        let long = 14.2454676;
+        let lat = 51.4390602;
+      }
       var map = new ol.Map({
         target: 'map',
         layers: [
@@ -34,18 +44,16 @@
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([14.2454676, 51.4390602]),
+          center: ol.proj.fromLonLat([long, lat]),
           zoom: 19
         })
       });
       document.getElementById('myForm').onsubmit = function () {
         
-        let long = document.getElementById('coords1');
-        let lat = document.getElementById('coords2');
+        let long1 = document.getElementById('coords1');
+        let lat1 = document.getElementById('coords2');
           console.log("Long: " + long + " Lat: " + lat);
-          map.getView().setCenter(ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857'));
-          map.getView().setZoom(19);
-          return true;
+        window.location.href = "https://unrealvalentin.github.io/potato-maps/?"+long1+","+lat1;
       }
     </script>
   </body>
