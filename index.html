@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
     <style>
       .map {
-        height: 50%;
+        height: 15%;
         width: 100%;
       }
     </style>
@@ -13,15 +13,8 @@
   </head>
   <body>
     <h2>Navigieren: </h2>
-    <form method="post" id="myForm">
-      <label>Longtiude
-        <input type="text" name="Coordinates" id="coords1">
-      </label>
-      <label>Lattiude
-        <input type="text" name="Coordinates" id="coords2">
-      </label>
-      <label><input type="submit" value="Absenden" /><label>
-    </form>
+    <button id="hoyjohanneum">Zum Johanneum</button>
+
     <div id="map" class="map"></div>
     <script type="text/javascript">
       let args = window.location.search;
@@ -38,26 +31,52 @@
         long = fullcords[0];
         lat = fullcords[1];
       }
+      var iconFeature = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([14.24694, 51.43609])),
+      });
+      var iconStyle = new ol.style.Style({
+          image: new ol.style.Icon({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: 'icon.png'
+          })
+  
+      });
+      iconFeature.setStyle(iconStyle);
+      
+      var vectorSource = new ol.source.Vector({
+        features: [iconFeature]
+      });
+
+      var vectorLayer = new ol.layer.Vector({
+        source: vectorSource
+      });
+      var properties = {
+        center: ol.proj.fromLonLat([long, lat]),
+        zoom: 19
+      }
+      var view1 = new ol.View(properties)
+
       var map = new ol.Map({
         target: 'map',
         layers: [
+          
           new ol.layer.Tile({
             source: new ol.source.OSM()
-          })
+          }), vectorLayer
+          
         ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([long, lat]),
-          zoom: 19
-        })
-      });
-      document.getElementById('myForm').onsubmit = function () {
+        view: view1
+        });
         
-        let long1 = document.getElementById('coords1');
-        let lat1 = document.getElementById('coords2');
-          console.log("Long: " + long + " Lat: " + lat);
-        window.location.href = "https://unrealvalentin.github.io/potato-maps/?"+long1+","+lat1;
-        return false;
-      }
-    </script>
-  </body>
-</html>
+
+        var hoyjohanneum = document.getElementById('hoyjohanneum');
+        hoyjohanneum.addEventListener('click', function() {
+          var point = ol.proj.fromLonLat([14.24694 ,51.43609]);
+          var size = map.getSize();
+          view1.centerOn(point, size, [570, 500]);
+        })
+      </script>
+    </body>
+  </html>
