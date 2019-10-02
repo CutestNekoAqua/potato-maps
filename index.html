@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+  <!-- Der Head -->
   <head>
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
     <style>
@@ -12,25 +13,24 @@
     <title>Potat0 Maps</title>
   </head>
   <body>
+    <!-- Die Buttons/Der Button -->
     <h2>Navigieren: </h2>
     <button id="hoyjohanneum">Zum Johanneum</button>
 
+    <!-- Die Karte -->
     <div id="map" class="map"></div>
+
+    <!-- Anfang vom Javascript -->
     <script type="text/javascript">
-      let args = window.location.search;
+
+    /* Definierung von Long und Lat */
+    let args = window.location.search;
       console.log(args);
         let long = 14.2454676;
         let lat = 51.4390602;
       args.split('?');
 
-      let fullcords = args[1];
-      
-      if (fullcords != null) {
-        fullcords.split(',');
-        
-        long = fullcords[0];
-        lat = fullcords[1];
-      }
+      /* Der Pin */
       var iconFeature = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat([14.24694, 51.43609])),
       });
@@ -44,7 +44,8 @@
   
       });
       iconFeature.setStyle(iconStyle);
-      
+
+      /* Die verschiedenen Layer */
       var vectorSource = new ol.source.Vector({
         features: [iconFeature]
       });
@@ -52,6 +53,8 @@
       var vectorLayer = new ol.layer.Vector({
         source: vectorSource
       });
+
+      /* Für die Karte benötigtes Zeug */
       var properties = {
         center: ol.proj.fromLonLat([long, lat]),
         zoom: 19
@@ -70,7 +73,7 @@
         view: view1
         });
         
-
+        /* Damit etwas passiert, wenn man auf den Button clickt */
         var hoyjohanneum = document.getElementById('hoyjohanneum');
         hoyjohanneum.addEventListener('click', function() {
           var point = ol.proj.fromLonLat([14.24694 ,51.43609]);
