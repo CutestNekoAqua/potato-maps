@@ -16,6 +16,7 @@
 </head>
 
 <body>
+  <!-- hallo du kleiner mops aaaaaaaa-->
   <!-- Die Buttons/Der Button -->
   <h2>Navigieren: </h2>
   <div id="buttons"></div>
@@ -64,8 +65,9 @@
       var iconFeatureList = [];
       for (var locIndex in locations) {
         var locObj = locations[locIndex];
-        var buttonelement = document.createElement('');
-        buttonelement.innerHTML = "<button id=\""+locObj.id+"\">"+locObj.name+"</button>";
+        var buttonelement = document.createElement('button');
+        buttonelement.ATTRIBUTE_NODE = "id=\""+locObj.id;
+        buttonelement.innerHTML = locObj.name;
         buttonsDiv.appendChild(buttonelement);
         
         /* Damit etwas passiert, wenn man auf den Button klickt */
