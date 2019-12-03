@@ -4,11 +4,26 @@
 
 <head>
   <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css"
-    type="text/css">
+    type="text/css" />
+    <link rel="stylesheet" href="bulma.css" type="text/css" />
+    <link rel="stylesheet" href="own.css" type="text/css" />
   <style>
-    .map {
+    html, body, #map {
+      margin: 0;
       height: 100%;
       width: 100%;
+      overflow: hidden
+    }
+    #header {
+      position: absolute;
+                bottom: 1em;
+                left: 1em;
+                width: 570;
+                z-index: 20000;
+                background-color: rgba(0, 0, 0, 0.5);
+                margin: 0;
+                color: white;
+                padding: 0 0.5em 0.5em 0.5em;
     }
   </style>
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
@@ -16,13 +31,16 @@
 </head>
 
 <body>
-  <!-- hallo du kleiner mops aaaaaaaa-->
   <!-- Die Buttons/Der Button -->
-  <h2>Navigieren: </h2>
-  <div id="buttons"></div>
-
+  <div id="header">
+    <div id="description">
+      <div class="divider"></div>
+    </div>  
+    <div id="buttons"></div>
+  </div>
+  
   <!-- Die Karte -->
-  <div id="map" class="map"></div>
+  <div id="map"></div>
 
   <!-- Anfang vom Javascript -->
   <script type="text/javascript">
@@ -34,12 +52,13 @@
       let lat = 51.4390602;
       args.split('?');
 
-      var poi0 = { name: "Johanneum", id: "hoyjohanneum", coordinates: [14.24694, 51.43609] };
-      var poi1 = { name: "ZCOM", id: "hoyzcom", coordinates: [14.25608, 51.43744] };
-      var poi2 = { name: "Lausitzer Platz", id: "hoylausplatz", coordinates: [14.26245, 51.43843] };
-      var poi3 = { name: "Léon-Foucault Gymnasium", id: "hoyleonfoucault", coordinates: [14.25319, 51.43650] };
-      var poi4 = { name: "Waldfriedhof", id: "hoywaldfriedhof", coordinates: [14.2856, 51.44086] };
-      var locations = [poi0, poi1, poi2, poi3, poi4];
+      var poi0 = { name: "Johanneum", id: "hoyjohanneum", coordinates: [14.24694, 51.43609], description: "Tolle Schule" };
+      var poi1 = { name: "ZCOM", id: "hoyzcom", coordinates: [14.25608, 51.43744], description: "Tolle Museum, welches wirklich sehr sehr toll ist." };
+      var poi2 = { name: "Lausitzer Platz", id: "hoylausplatz", coordinates: [14.26245, 51.43843], description:  "Hier kann man Sachen kaufen" };
+      var poi3 = { name: "Foucault", id: "hoyfoucault", coordinates: [14.25319, 51.43650], description:  "Das ist auch eine Schule" };
+      var poi4 = { name: "Waldfriedhof", id: "hoywaldfriedhof", coordinates: [14.2856, 51.44086], description:  "Das ist der Friedhof, die Hoyerswerda am nächsten ist" };
+      var poi5 = { name: "Kulturfabrik", id: "kufa", coordinates: [14.245475, 51.438972], description: "Das Soziokulturelle Zentrum für Hoyerswerda und die Region. Braugasse 1, 02977 Hoyerswerda"};
+      var locations = [poi0, poi1, poi2, poi3, poi4, poi5];
 
       var iconStyle = new ol.style.Style({
         image: new ol.style.Icon({
@@ -50,12 +69,15 @@
         })
       });
 
+      var descriptionDiv = document.getElementById('description');
+
       function createClickListener(locObj) {
         return function() {
           var point = ol.proj.fromLonLat(locObj.coordinates);
           var size = map.getSize();
           view1.centerOn(point, size, [570, 500]);
           console.log(locObj.id);
+          descriptionDiv.innerHTML = locObj.description;
         }
       }
 
@@ -66,9 +88,14 @@
       for (var locIndex in locations) {
         var locObj = locations[locIndex];
         var buttonelement = document.createElement('button');
-        buttonelement.ATTRIBUTE_NODE = "id=\""+locObj.id;
+        buttonelement.setAttribute('id', locObj.id);
+        buttonelement.setAttribute("class", "button is-primary")
         buttonelement.innerHTML = locObj.name;
+        var divider = document.createElement('div');
+        divider.setAttribute('class', 'divider')
+        buttonsDiv.appendChild(divider)
         buttonsDiv.appendChild(buttonelement);
+     
         
         /* Damit etwas passiert, wenn man auf den Button klickt */
         buttonelement.addEventListener('click', createClickListener(locObj))
@@ -79,9 +106,6 @@
         iconFeature.setStyle(iconStyle);
         iconFeatureList.push(iconFeature);
       }
-
-
-
       /* Die verschiedenen Layer */
       var vectorSource = new ol.source.Vector({
         features: iconFeatureList
