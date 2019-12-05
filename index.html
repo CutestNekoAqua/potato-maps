@@ -62,12 +62,13 @@
       let lat = 51.4390602;
       args.split('?');
 
-      var poi0 = { name: "Johanneum", id: "hoyjohanneum", coordinates: [14.24694, 51.43609], description: "Tolle Schule" };
-      var poi1 = { name: "ZCOM", id: "hoyzcom", coordinates: [14.25608, 51.43744], description: "Tolle Museum, welches wirklich sehr sehr toll ist." };
-      var poi2 = { name: "Lausitzer Platz", id: "hoylausplatz", coordinates: [14.26245, 51.43843], description:  "Hier kann man Sachen kaufen" };
-      var poi3 = { name: "Foucault", id: "hoyfoucault", coordinates: [14.25319, 51.43650], description:  "Das ist auch eine Schule" };
-      var poi4 = { name: "Waldfriedhof", id: "hoywaldfriedhof", coordinates: [14.2856, 51.44086], description:  "Das ist der Friedhof, der Hoyerswerda am nächsten ist" };
-      var poi5 = { name: "Kulturfabrik", id: "kufa", coordinates: [14.245475, 51.438972], description: "Das Soziokulturelle Zentrum für Hoyerswerda und die Region. Braugasse 1, 02977 Hoyerswerda"};
+      var poi0 = { name: "Kulturfabrik", id: "kufa", coordinates: [14.245475, 51.438972], description: "Das Soziokulturelle Zentrum für Hoyerswerda und die Region. Braugasse 1, 02977 Hoyerswerda"};
+      var poi1 = { name: "ZCOM", id: "hoyzcom", coordinates: [14.25608, 51.43744], description: "Das Zuse-Computer-Museum lehrt die Geschichte des ersten Computers und wer diesen Erfand. D.-Bonhoeffer-Str. 1-3, 02977 Hoyerswerda" };
+      var poi2 = { name: "Johanneum", id: "hoyjohanneum", coordinates: [14.24694, 51.43609], description: "Das Johanneum ist eine Christliche Schule in Hoyerswerda mit Gymnasial und Oberschulklassen. Fischerstraße 5, 02977 Hoyerswerda" };
+      var poi3 = { name: "Foucault", id: "hoyfoucault", coordinates: [14.25319, 51.43650], description:  "Das Léon-Foucault-Gymnasium fördert Schüler in z.B. dem mathematisch-naturwissenschaftlichen, oder dem künstlerischen Gebiet. Straße des Friedens 26, 02977 Hoyerswerda" };
+      var poi4 = { name: "Lausitzer Platz", id: "hoylausplatz", coordinates: [14.26245, 51.43843], description:  "In diesem Einkaufscenter kann man in 66 Geschäften shoppen oder bummeln. Lausitzer Platz 1-3, 02977 Hoyerswerda" };
+      var poi5 = { name: "Waldfriedhof", id: "hoywaldfriedhof", coordinates: [14.2856, 51.44086], description:  "Der Waldfriedhof Hoyerswerda ist ein in der Nähe von Hoyerswerda liegender Friedhof. Am Waldfriedhof 2, 02977 Hoyerswerda" };
+      
       var locations = [poi0, poi1, poi2, poi3, poi4, poi5];
 
       var iconStyle = new ol.style.Style({
