@@ -87,7 +87,7 @@
         return function() {
           var point = ol.proj.fromLonLat(locObj.coordinates);
           var size = map.getSize();
-          view1.centerOn(point, size, [700, 300]);
+          view1.setCenter(ol.proj.fromLonLat(locObj.coordinates))
           view1.zoom(5)
           console.log(locObj.id);
           descriptionDiv.innerHTML = locObj.description;
