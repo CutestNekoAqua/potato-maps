@@ -97,6 +97,7 @@
      
       // pins
       var iconFeatureList = [];
+      var textFeatureList = [];
       for (var locIndex in locations) {
         var locObj = locations[locIndex];
         var buttonelement = document.createElement('button');
@@ -112,21 +113,43 @@
         /* Damit etwas passiert, wenn man auf den Button klickt */
         buttonelement.addEventListener('click', createClickListener(locObj))
 
+        var textStyle = new ol.style.Style({
+        text: new ol.style.Text({
+          text: locObj.name,
+          offsetY: 17,
+          scale: 1.5
+        })
+      });
+
         var iconFeature = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat(locObj.coordinates)),
         });
         iconFeature.setStyle(iconStyle);
         iconFeatureList.push(iconFeature);
+      
+      var textFeature = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat(locObj.coordinates)),
+        });
+        textFeature.setStyle(textStyle);
+        textFeatureList.push(textFeature);
       }
       /* Die verschiedenen Layer */
       var vectorSource = new ol.source.Vector({
         features: iconFeatureList
       });
+      var vectorSource2 = new ol.source.Vector({
+        features: textFeatureList
+      });
 
-      var vectorLayer = new ol.layer.Vector({
+      var vectorLayer1 = new ol.layer.Vector({
         source: vectorSource,
         minResolution: 0,
         maxResolution: 30
+      });
+      var vectorLayer2 = new ol.layer.Vector({
+        source: vectorSource2,
+        minResolution: 4,
+        maxResolution: 10
       });
 
       /* Für die Karte benötigtes Zeug */
@@ -144,7 +167,7 @@
 
           new ol.layer.Tile({
             source: new ol.source.OSM()
-          }), vectorLayer
+          }), vectorLayer1, vectorLayer2
 
         ],
         controls: [
