@@ -8,35 +8,7 @@
     <link rel="stylesheet" href="bulma.css" type="text/css" />
     <link rel="stylesheet" href="own.css" type="text/css" />
     <link rel="shortcut icon" href="favicon.png" />
-  <style>
-    html, body, #map {
-      margin: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden
-    }
-    #header {
-      position: absolute;
-                bottom: 1em;
-                left: 1em;
-                width: 570;
-                z-index: 20000;
-                background-color: rgba(0, 0, 0, 0.5);
-                margin: 0;
-                color: white;
-                padding: 0 0.5em 0.5em 0.5em;
-    }
 
-    .custom-zoom{
-      top: .5em;
-      left: .5em;
-    }
-    .custom-zoom button{
-      background-color: rgba(40, 40, 40, .7);
-      border-radius: 50%;
-    }
-
-  </style>
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
   <title>Potat0 Maps</title>
 </head>
@@ -47,8 +19,12 @@
     <div id="description">
       <div class="divider"></div>
     </div>  
+    <form>
+      <input type=text id="search">
+    </form>
     <div id="buttons"></div>
   </div>
+
   
   <!-- Die Karte -->
   <div id="map"></div>
@@ -129,6 +105,8 @@
         textFeature.setStyle(textStyle);
         textFeatureList.push(textFeature);
       }
+
+
       /* Die verschiedenen Layer */
       var vectorSource = new ol.source.Vector({
         features: iconFeatureList
@@ -173,7 +151,32 @@
         ],
         view: view1
       });
-    }
+
+      var inputDiv = document.getElementById('search');
+      document.addEventListener('keyup', function(event) {
+        search(inputDiv.value);
+      });
+
+      var search = function(searchString) {
+          searchString = searchString.toLowerCase().trim();
+          var results = [];
+          for (var locIndex in locations) {
+              var locObj = locations[locIndex];
+              var name = locObj.name.toLowerCase(), description = locObj.description.toLowerCase();
+              
+              if (name.indexOf(searchString) >= 0)
+              {
+                results.push(locObj.name);
+              } 
+              else if (description.indexOf(searchString) >= 0)
+              {
+                results.push(locObj.name);
+              }
+          }
+          console.log(results);
+        }
+      }
+
   </script>
 </body>
 

@@ -3,3 +3,33 @@
     height:auto;
     display:inline-block;
 }
+html, body, #map {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden
+  }
+  #header {
+    position: absolute;
+              bottom: 1em;
+              left: 1em;
+              width: 570;
+              z-index: 20000;
+              background-color: rgba(0, 0, 0, 0.5);
+              margin: 0;
+              color: white;
+              padding: 0 0.5em 0.5em 0.5em;
+  }
+
+  .custom-zoom{
+    top: .5em;
+    left: .5em;
+  }
+  .custom-zoom button{
+    background-color: rgba(40, 40, 40, .7);
+    border-radius: 50%;
+  }
+  #search{
+    margin-bottom: 15px;
+    margin-left: 5px;
+  }
