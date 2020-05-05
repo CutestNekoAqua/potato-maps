@@ -172,6 +172,9 @@
               {
                 results.push(locObj.name);
               }
+              else if (tags.indexOf(searchString) >= 0){
+                results.push(locObj.name);
+              }
           }
           console.log(results);
         }
