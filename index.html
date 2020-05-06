@@ -160,23 +160,39 @@
       var search = function(searchString) {
           searchString = searchString.toLowerCase().trim();
           var results = [];
+          var ids = [];
           for (var locIndex in locations) {
+            
+
               var locObj = locations[locIndex];
+              document.getElementById(locObj.id).style.display="none"
               var name = locObj.name.toLowerCase(), description = locObj.description.toLowerCase(), tags = locObj.tags.toLowerCase();
               
+
               if (name.indexOf(searchString) >= 0)
               {
                 results.push(locObj.name);
+                ids.push(locObj.id);
               } 
               else if (description.indexOf(searchString) >= 0)
               {
                 results.push(locObj.name);
+                ids.push(locObj.id);
               }
               else if (tags.indexOf(searchString) >= 0){
                 results.push(locObj.name);
+                ids.push(locObj.id);
               }
           }
           console.log(results);
+          console.log(ids);
+          for (var idIndex in ids){
+            var id = ids[idIndex]
+            document.getElementById(id).style.display="inline-block";
+          }
+          
+          
+          
         }
       }
 
