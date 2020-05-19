@@ -14,6 +14,9 @@
 </head>
 
 <body>
+  
+  <div id="locations"></div>
+
   <!-- Die Buttons/Der Button -->
   <div id="header">
     <div id="description">
@@ -62,10 +65,12 @@
           view1.setZoom(17)
           console.log(locObj.id);
           descriptionDiv.innerHTML = locObj.description;
+          document.getElementById(locObj.name).setAttribute('class', 'box-visible')
         }
       }
 
       var buttonsDiv = document.getElementById('buttons');
+      var guiDiv = document.getElementById('locations')
      
       // pins
       var iconFeatureList = [];
@@ -80,7 +85,14 @@
         divider.setAttribute('class', 'divider')
         buttonsDiv.appendChild(divider)
         buttonsDiv.appendChild(buttonelement);
-     
+
+        var guielement = document.createElement('div');
+        guielement.setAttribute('id', locObj.name);
+        guielement.setAttribute("class", "box-invisible")
+        guielement.innerHTML = locObj.name;
+        guiDiv.appendChild(guielement);
+
+        
         
         /* Damit etwas passiert, wenn man auf den Button klickt */
         buttonelement.addEventListener('click', createClickListener(locObj))
