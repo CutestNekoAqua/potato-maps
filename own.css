@@ -40,10 +40,11 @@ html, body, #map {
     color: #4a4a4a;
     padding: 1.25rem;
     display: none;
-    height: 50px;
-    width: auto;
+    height: auto;
+    width: 400px;
     z-index: 20001;
     position: absolute;
     text-align: center;
-    margin-right: auto;
+    right: 1%;
+    top: 1%;
   }

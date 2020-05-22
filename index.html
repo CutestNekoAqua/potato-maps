@@ -56,7 +56,6 @@
         })
       });
 
-      var descriptionDiv = document.getElementById('description');
 
       function createClickListener(locObj) {
         return function() {
@@ -66,7 +65,6 @@
           view1.setCenter(ol.proj.fromLonLat(locObj.coordinates))
           view1.setZoom(17)
           console.log(locObj.id);
-          descriptionDiv.innerHTML = locObj.description;
           document.getElementById(locObj.name).style.display="block"
         }
       }
@@ -91,7 +89,7 @@
         var guielement = document.createElement('div');
         guielement.setAttribute('id', locObj.name);
         guielement.setAttribute("class", "box1")
-        guielement.innerHTML = locObj.name;
+        guielement.innerHTML = locObj.name + "<br /> <br />" + locObj.description
         guiDiv.appendChild(guielement);
 
         
