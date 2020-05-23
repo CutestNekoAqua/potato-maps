@@ -24,7 +24,7 @@
       <div class="divider"></div>
     </div>  
     <form>
-      <input type=text id="search">
+      <input type=text id="search" class="input">
     </form>
     <div id="buttons"></div>
   </div>
@@ -79,12 +79,13 @@
         var locObj = locations[locIndex];
         var buttonelement = document.createElement('button');
         buttonelement.setAttribute('id', locObj.id);
-        buttonelement.setAttribute("class", "button is-primary")
+        buttonelement.setAttribute("class", "button")
         buttonelement.innerHTML = locObj.name;
         var divider = document.createElement('div');
         divider.setAttribute('class', 'divider')
         buttonsDiv.appendChild(divider)
         buttonsDiv.appendChild(buttonelement);
+        
 
         var guielement = document.createElement('div');
         guielement.setAttribute('id', locObj.name);
@@ -203,11 +204,11 @@
             var id = ids[idIndex]
             document.getElementById(id).style.display="inline-block";
           }
+          }
           
           
           
         }
-      }
 
   </script>
 </body>
