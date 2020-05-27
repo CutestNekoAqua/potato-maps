@@ -82,4 +82,49 @@ html, body, #map {
     height: 30px;
     background: rgba(10, 10, 10, 0.3);
   }
+  .buttonred{
+    background: red;
+    border: transparent;
+    background-size: 200%;
+    transition: .4s;
+    color: white;
+  }
+  .buttonred:hover{
+    background: rgba(0, 0, 0, 0.4);
+    border: transparent;
+    height: 40px;
+    color: white;
+  }
+  .buttongreen{
+    background: green;
+    border: transparent;
+    background-size: 200%;
+    transition: .4s;
+    color: white;
+  }
+  .buttongreen:hover{
+    background: rgba(0, 0, 0, 0.4);
+    border: transparent;
+    height: 40px;
+    color: white;
+  }
+  .buttonyellow{
+    background: yellow;
+    border: transparent;
+    background-size: 200%;
+    transition: .4s;
+    color: white;
+  }
+  .buttonyellow:hover{
+    background: rgba(0, 0, 0, 0.4);
+    border: transparent;
+    height: 40px;
+    color: white;
+  }
+  #colorChange{
+    color: blue;
+    font-size: x-small;
+    padding: 5px;
+    cursor: pointer;
+  }
   
