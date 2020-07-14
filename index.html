@@ -68,35 +68,7 @@
           document.getElementById(locObj.name).style.display="block"
         }
       }
-      $('#colorChange').click(function(){
-        $( '.box1' ).fadeOut("fast")
-        $('#colordiv').fadeToggle("slow")
-      })
-      $('#buttonred').click(function(){
-        $('.button').addClass("buttonred")
-        $('.button').removeClass("buttongreen")
-        $('.button').removeClass("buttonyellow")
-        $('#buttonreset').css("background-color", "rgb(0, 196, 167)")
-      })
-      $('#buttongreen').click(function(){
-        $('.button').addClass("buttongreen")
-        $('.button').removeClass("buttonred")
-        $('.button').removeClass("buttonyellow")
-        $('#buttonreset').css("background-color", "rgb(0, 196, 167)")
-      })
-      $('#buttonyellow').click(function(){
-        $('.button').addClass("buttonyellow")
-        $('.button').removeClass("buttonred")
-        $('.button').removeClass("buttongreen")
-        $('#buttonreset').css("background-color", "rgb(0, 196, 167)")
-      })
-      $('#buttonreset').click(function(){
-        $('.button').removeClass("buttonyellow")
-        $('.button').removeClass("buttonred")
-        $('.button').removeClass("buttongreen")
-      })
       
-
       var buttonsDiv = document.getElementById('buttons');
       var guiDiv = document.getElementById('locations')
      
