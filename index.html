@@ -17,14 +17,7 @@
 <body>
   
   <div id="locations"></div>
-  <div class="box1" id="colordiv">
-    Farbe auswählen
-    <br />
-    <button id="buttonred" class="button" style="background-color: red;">Rot</button>
-    <button id="buttongreen" class="button" style="background-color: green;">Grün</button>
-    <button id="buttonyellow" class="button" style="background-color: yellow;">Gelb</button>
-    <button id="buttonreset" class="button">Zurücksetzen</button>
-  </div>
+  
 
   <!-- Die Buttons/Der Button -->
   <div id="header">
@@ -35,7 +28,6 @@
       <input type=text id="search" class="input">
     </form>
     <div id="buttons"></div>
-    <div id="colorChange">Farbe ändern</div>
   </div>
 
   
@@ -77,35 +69,7 @@
           document.getElementById(locObj.name).style.display="block"
         }
       }
-      $('#colorChange').click(function(){
-        $( '.box1' ).fadeOut("fast")
-        $('#colordiv').fadeToggle("slow")
-      })
-      $('#buttonred').click(function(){
-        $('.button').addClass("buttonred")
-        $('.button').removeClass("buttongreen")
-        $('.button').removeClass("buttonyellow")
-        $('#buttonreset').css("background-color", "rgb(0, 196, 167)")
-      })
-      $('#buttongreen').click(function(){
-        $('.button').addClass("buttongreen")
-        $('.button').removeClass("buttonred")
-        $('.button').removeClass("buttonyellow")
-        $('#buttonreset').css("background-color", "rgb(0, 196, 167)")
-      })
-      $('#buttonyellow').click(function(){
-        $('.button').addClass("buttonyellow")
-        $('.button').removeClass("buttonred")
-        $('.button').removeClass("buttongreen")
-        $('#buttonreset').css("background-color", "rgb(0, 196, 167)")
-      })
-      $('#buttonreset').click(function(){
-        $('.button').removeClass("buttonyellow")
-        $('.button').removeClass("buttonred")
-        $('.button').removeClass("buttongreen")
-      })
       
-
       var buttonsDiv = document.getElementById('buttons');
       var guiDiv = document.getElementById('locations')
      
