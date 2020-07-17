@@ -15,203 +15,244 @@
 </head>
 
 <body>
-  
-  <div id="locations"></div>
 
-  <!-- Die Buttons/Der Button -->
-  <div id="header">
-    <div id="description">
-      <div class="divider"></div>
-    </div>  
-    <form>
-      <input type=text id="search" class="input">
-    </form>
-    <div id="buttons"></div>
-  </div>
+    <div id="locations"></div>
 
-  
-  <!-- Die Karte -->
-  <div id="map"></div>
+    <!-- Die Buttons/Der Button -->
+    <div id="header">
+        <div id="description">
+            <div class="divider"></div>
+        </div>
+        <form>
+            <input type=text id="search" class="input">
+            <img src="./loading.gif" height="30" width="30" id="loadingcircle" />
+        </form>
+        <div id="buttons"></div>
+    </div>
 
-  <!-- Anfang vom Javascript -->
-  <script type="text/javascript">
-    window.onload = function () {
+    <!-- Die Karte -->
+    <div id="map">
+    </div>
 
-      var poi0 = { name: "Kulturfabrik", id: "hoykufa", coordinates: [14.245475, 51.438972], description: "Das Soziokulturelle Zentrum für Hoyerswerda und die Region. Auch Kufa genannt.", tags: "kultur", address:"Braugasse 1, 02977 Hoyerswerda"};
-      var poi1 = { name: "ZCOM", id: "hoyzcom", coordinates: [14.25608, 51.43744], description: "Das Zuse-Computer-Museum lehrt die Geschichte des ersten Computers und wer diesen Erfand.", tags: "computer, geschichte", address:"D.-Bonhoeffer-Str. 1-3, 02977 Hoyerswerda" };
-      var poi2 = { name: "Johanneum", id: "hoyjohanneum", coordinates: [14.24694, 51.43609], description: "Das Johanneum ist eine Christliche Schule in Hoyerswerda mit Gymnasial und Oberschulklassen.", tags: "schule, christlich, gymnasium", address:"Fischerstraße 5, 02977 Hoyerswerda" };
-      var poi3 = { name: "Foucault", id: "hoyfoucault", coordinates: [14.25319, 51.43650], description:  "Das Léon-Foucault-Gymnasium fördert Schüler in z.B. dem mathematisch-naturwissenschaftlichen, oder dem künstlerischen Gebiet.", tags :"schule, gymnasium", address:"Straße des Friedens 26, 02977 Hoyerswerda" };
-      var poi4 = { name: "Lausitzer Platz", id: "hoylausplatz", coordinates: [14.26245, 51.43843], description:  "In diesem Einkaufscenter kann man in 66 Geschäften shoppen oder bummeln.", tags: "shoppen, einkaufen", address:"Lausitzer Platz 1-3, 02977 Hoyerswerda" };
-      var poi5 = { name: "Waldfriedhof", id: "hoywaldfriedhof", coordinates: [14.2856, 51.44086], description:  "Der Waldfriedhof Hoyerswerda ist ein in der Nähe von Hoyerswerda liegender Friedhof", tags:"", address:"Am Waldfriedhof 2, 02977 Hoyerswerda" };
-      var poi6 = { name: "Lessing", id: "hoylessing", coordinates: [14.233448, 51.437437], description:  "Das Lessing-Gymnasium ist ein musikalisch und wissenschaftlich orientiertes Gymnasium", tags:"schule, lessing", address:"Pestalozzistraße 1, 02977 Hoyerswerda" };
-      
-      var locations = [poi0, poi1, poi2, poi3, poi4, poi5, poi6];
 
-      var iconStyle = new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [0.5, 640],
-          anchorXUnits: 'fraction',
-          anchorYUnits: 'pixels',
-          src: 'test.png',
-          scale: 0.1
+
+    <!-- Laden der POI's-->
+    <script type="text/javascript">
+        var arrpoi = [];
+        var locations = [];
+
+        //Einlesen der JSON-File: https://ethercalc.org/80v6flbti30d.csv.json
+
+        $.ajax({
+            url: 'https://ethercalc.org/80v6flbti30d.csv.json',
+            dataType: 'json',
+            type: 'get',
+            cache: 'false',
+            success: function (data) {
+                $(data).each(function (index, value) {
+
+                    arrpoi[index] = value;
+
+                    arrcoor = arrpoi[index][2].split(", ");
+                    var coor = [];
+
+                    var coor1 = parseFloat(arrcoor[0]);
+                    var coor2 = parseFloat(arrcoor[1]);
+
+                    coor.push(coor2, coor1);
+
+                    var poi = {
+                        name: arrpoi[index][0],
+                        id: arrpoi[index][1],
+                        coordinates: coor,
+                        description: arrpoi[index][3],
+                        tags: arrpoi[index][4],
+                        address: arrpoi[index][5]
+                    }
+                    locations["poi" + index] = poi;
+
+                })
+
+                console.log("Loaded POI's successful!");
+                loadmap();
+            }
+
         })
-      });
+
+    </script>
+
+    <!-- Anfang vom Javascript -->
+    <script type="text/javascript">
+        function loadmap() {
+
+            $("#loadingcircle").fadeOut(1000);
+
+            var poi0 = { coordinates: [14.245475, 51.438972] };
+
+            var iconStyle = new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 640],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    src: 'test.png',
+                    scale: 0.1
+                })
+            });
 
 
-      function createClickListener(locObj) {
-        return function() {
-          $( '.box1' ).fadeOut("fast")
-          var point = ol.proj.fromLonLat(locObj.coordinates);
-          var size = map.getSize();
-          view1.setCenter(ol.proj.fromLonLat(locObj.coordinates))
-          view1.setZoom(17)
-          console.log(locObj.id);
-          document.getElementById(locObj.name).style.display="block"
+            function createClickListener(locObj) {
+                return function () {
+                    $('.box1').fadeOut("fast")
+                    var point = ol.proj.fromLonLat(locObj.coordinates);
+                    var size = map.getSize();
+                    view1.setCenter(ol.proj.fromLonLat(locObj.coordinates))
+                    view1.setZoom(17)
+                    console.log(locObj.id);
+                    document.getElementById(locObj.name).style.display = "block"
+                }
+            }
+
+            var buttonsDiv = document.getElementById('buttons');
+            var guiDiv = document.getElementById('locations')
+
+            // pins
+            var iconFeatureList = [];
+            var textFeatureList = [];
+            for (var locIndex in locations) {
+
+                var locObj = locations[locIndex];
+                var buttonelement = document.createElement('button');
+                buttonelement.setAttribute('id', locObj.id);
+                buttonelement.setAttribute("class", "button")
+                buttonelement.innerHTML = locObj.name;
+                var divider = document.createElement('div');
+                divider.setAttribute('class', 'divider')
+                buttonsDiv.appendChild(divider)
+                buttonsDiv.appendChild(buttonelement);
+
+
+                var guielement = document.createElement('div');
+                guielement.setAttribute('id', locObj.name);
+                guielement.setAttribute("class", "box1")
+                var innerGUI = locObj.name + "<br /> <br />" + locObj.description + "<br /> Adresse: " + locObj.address
+                guielement.innerHTML = innerGUI
+                guiDiv.appendChild(guielement);
+
+
+
+                /* Damit etwas passiert, wenn man auf den Button klickt */
+                buttonelement.addEventListener('click', createClickListener(locObj))
+
+                var textStyle = new ol.style.Style({
+                    text: new ol.style.Text({
+                        text: locObj.name,
+                        offsetY: 8,
+                        scale: 1.5
+                    })
+                });
+
+                var iconFeature = new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat(locObj.coordinates)),
+                });
+                iconFeature.setStyle(iconStyle);
+                iconFeatureList.push(iconFeature);
+
+                var textFeature = new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat(locObj.coordinates)),
+                });
+                textFeature.setStyle(textStyle);
+                textFeatureList.push(textFeature);
+            }
+
+
+            /* Die verschiedenen Layer */
+            var vectorSource = new ol.source.Vector({
+                features: iconFeatureList
+            });
+            var vectorSource2 = new ol.source.Vector({
+                features: textFeatureList
+            });
+
+            var vectorLayer1 = new ol.layer.Vector({
+                source: vectorSource,
+                minResolution: 0,
+                maxResolution: 30
+            });
+            var vectorLayer2 = new ol.layer.Vector({
+                source: vectorSource2,
+                minResolution: 7,
+                maxResolution: 12
+            });
+
+            /* Für die Karte benötigtes Zeug */
+            var properties = {
+                center: ol.proj.fromLonLat(poi0.coordinates),
+                zoom: 17,
+                minZoom: 2,
+                maxZoom: 19
+            }
+            var view1 = new ol.View(properties)
+
+            var map = new ol.Map({
+                target: 'map',
+                layers: [
+
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    }), vectorLayer2, vectorLayer1
+
+                ],
+                controls: [
+                    new ol.control.Zoom({
+                        className: 'custom-zoom'
+                    })
+                ],
+                view: view1
+            });
+
+            var inputDiv = document.getElementById('search');
+            document.addEventListener('keyup', function (event) {
+                search(inputDiv.value);
+            });
+
+            var search = function (searchString) {
+                searchString = searchString.toLowerCase().trim();
+                var results = [];
+                var ids = [];
+                for (var locIndex in locations) {
+
+
+                    var locObj = locations[locIndex];
+                    document.getElementById(locObj.id).style.display = "none"
+                    var name = locObj.name.toLowerCase(), description = locObj.description.toLowerCase(), tags = locObj.tags.toLowerCase();
+
+
+                    if (name.indexOf(searchString) >= 0) {
+                        results.push(locObj.name);
+                        ids.push(locObj.id);
+                    }
+                    else if (description.indexOf(searchString) >= 0) {
+                        results.push(locObj.name);
+                        ids.push(locObj.id);
+                    }
+                    else if (tags.indexOf(searchString) >= 0) {
+                        results.push(locObj.name);
+                        ids.push(locObj.id);
+                    }
+                }
+                console.log(results);
+                console.log(ids);
+                for (var idIndex in ids) {
+                    var id = ids[idIndex]
+                    document.getElementById(id).style.display = "inline-block";
+                }
+            }
+
+
+
         }
-      }
-      
-      var buttonsDiv = document.getElementById('buttons');
-      var guiDiv = document.getElementById('locations')
-     
-      // pins
-      var iconFeatureList = [];
-      var textFeatureList = [];
-      for (var locIndex in locations) {
-        var locObj = locations[locIndex];
-        var buttonelement = document.createElement('button');
-        buttonelement.setAttribute('id', locObj.id);
-        buttonelement.setAttribute("class", "button")
-        buttonelement.innerHTML = locObj.name;
-        var divider = document.createElement('div');
-        divider.setAttribute('class', 'divider')
-        buttonsDiv.appendChild(divider)
-        buttonsDiv.appendChild(buttonelement);
-        
 
-        var guielement = document.createElement('div');
-        guielement.setAttribute('id', locObj.name);
-        guielement.setAttribute("class", "box1")
-        var innerGUI = locObj.name + "<br /> <br />" + locObj.description + "<br /> Adresse: " + locObj.address
-        guielement.innerHTML = innerGUI
-        guiDiv.appendChild(guielement);
-
-        
-        
-        /* Damit etwas passiert, wenn man auf den Button klickt */
-        buttonelement.addEventListener('click', createClickListener(locObj))
-
-        var textStyle = new ol.style.Style({
-        text: new ol.style.Text({
-          text: locObj.name,
-          offsetY: 8,
-          scale: 1.5
-        })
-      });
-
-        var iconFeature = new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat(locObj.coordinates)),
-        });
-        iconFeature.setStyle(iconStyle);
-        iconFeatureList.push(iconFeature);
-      
-      var textFeature = new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat(locObj.coordinates)),
-        });
-        textFeature.setStyle(textStyle);
-        textFeatureList.push(textFeature);
-      }
-
-
-      /* Die verschiedenen Layer */
-      var vectorSource = new ol.source.Vector({
-        features: iconFeatureList
-      });
-      var vectorSource2 = new ol.source.Vector({
-        features: textFeatureList
-      });
-
-      var vectorLayer1 = new ol.layer.Vector({
-        source: vectorSource,
-        minResolution: 0,
-        maxResolution: 30
-      });
-      var vectorLayer2 = new ol.layer.Vector({
-        source: vectorSource2,
-        minResolution: 7,
-        maxResolution: 12
-      });
-
-      /* Für die Karte benötigtes Zeug */
-      var properties = {
-        center: ol.proj.fromLonLat(poi0.coordinates),
-        zoom: 17,
-        minZoom: 2,
-        maxZoom: 19
-      }
-      var view1 = new ol.View(properties)
-
-      var map = new ol.Map({
-        target: 'map',
-        layers: [
-
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          }), vectorLayer2, vectorLayer1
-
-        ],
-        controls: [
-        new ol.control.Zoom({
-        className: 'custom-zoom'
-      })
-        ],
-        view: view1
-      });
-
-      var inputDiv = document.getElementById('search');
-      document.addEventListener('keyup', function(event) {
-        search(inputDiv.value);
-      });
-
-      var search = function(searchString) {
-          searchString = searchString.toLowerCase().trim();
-          var results = [];
-          var ids = [];
-          for (var locIndex in locations) {
-            
-
-              var locObj = locations[locIndex];
-              document.getElementById(locObj.id).style.display="none"
-              var name = locObj.name.toLowerCase(), description = locObj.description.toLowerCase(), tags = locObj.tags.toLowerCase();
-              
-
-              if (name.indexOf(searchString) >= 0)
-              {
-                results.push(locObj.name);
-                ids.push(locObj.id);
-              } 
-              else if (description.indexOf(searchString) >= 0)
-              {
-                results.push(locObj.name);
-                ids.push(locObj.id);
-              }
-              else if (tags.indexOf(searchString) >= 0){
-                results.push(locObj.name);
-                ids.push(locObj.id);
-              }
-          }
-          console.log(results);
-          console.log(ids);
-          for (var idIndex in ids){
-            var id = ids[idIndex]
-            document.getElementById(id).style.display="inline-block";
-          }
-          }
-          
-          
-          
-        }
-
-  </script>
+    </script>
 </body>
 
 </html>
